@@ -8,7 +8,6 @@ const downloadBtn = document.getElementById("downloadBtn");
 const descriptionPanel = document.getElementById("projectDescription");
 
 let pdfDoc = null;
-let currentScale = 1;
 let currentFile = "";
 
 function createPortfolioButtons() {
@@ -45,7 +44,7 @@ function renderAllPages() {
 
             const viewport = page.getViewport({ scale: 1 });
             const scale = (window.innerWidth * 0.6) / viewport.width;
-            const scaledViewport = page.getViewport({ scale: scale * currentScale });
+            const scaledViewport = page.getViewport({ scale: scale });
 
             const canvas = document.createElement("canvas");
             const ctx = canvas.getContext("2d");
@@ -81,16 +80,6 @@ function createThumbnail(page, pageNumber) {
 
     thumbnailsContainer.appendChild(canvas);
 }
-
-document.getElementById("zoomIn").onclick = () => {
-    currentScale *= 1.1;
-    loadPDF(currentFile, descriptionPanel.innerText);
-};
-
-document.getElementById("zoomOut").onclick = () => {
-    currentScale /= 1.1;
-    loadPDF(currentFile, descriptionPanel.innerText);
-};
 
 document.getElementById("goTop").onclick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });

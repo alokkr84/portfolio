@@ -23,23 +23,27 @@ body {
 /* HERO */
 
 .hero {
-    padding: 100px 40px 60px;
+    padding: 50px 40px 20px; /* reduced overall */
     text-align: center;
     animation: fadeIn 1.2s ease forwards;
 }
 
 .hero h1 {
     font-size: 3rem;
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
 }
 
 .designation {
+    margin: 0 0 10px 0;
     color: var(--muted);
-    margin-bottom: 20px;
+}
+
+.contact {
+    margin-bottom: 10px;
 }
 
 .contact a {
-    margin: 0 12px;
+    margin: 0 8px;
     text-decoration: none;
     color: var(--muted);
     font-size: 0.95rem;
@@ -47,6 +51,11 @@ body {
 
 .contact a:hover {
     color: var(--text);
+}
+
+.portfolio-buttons {
+    margin-top: 25px;   /* farther from contacts */
+    margin-bottom: 0px;
 }
 
 .portfolio-buttons button {
@@ -80,7 +89,7 @@ body {
     display: grid;
     grid-template-columns: 150px 1fr 350px;
     gap: 30px;
-    padding: 40px;
+    padding: 10px 40px 40px;
 }
 
 .thumbnails {
