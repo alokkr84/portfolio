@@ -150,3 +150,10 @@ window.addEventListener("scroll", () => {
     document.querySelector(".hero").style.transform =
         `translateY(${offset}px)`;
 });
+
+window.addEventListener("scroll", () => {
+    const scrollTop = window.scrollY;
+    const height = document.body.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / height) * 100;
+    document.querySelector(".scroll-progress").style.width = progress + "%";
+});
