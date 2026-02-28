@@ -49,7 +49,7 @@ function renderAllPages() {
             const containerWidth =
                 window.innerWidth < 1024
                     ? window.innerWidth * 0.95
-                    : window.innerWidth * 0.6;
+                    : window.innerWidth * 0.67;
 
             const baseScale = containerWidth / viewport.width;
 
