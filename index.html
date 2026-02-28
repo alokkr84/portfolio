@@ -6,34 +6,50 @@
 <title>Alok Kumar — Portfolio</title>
 
 <link rel="stylesheet" href="style.css">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 
 <body>
 
-<header>
-    <h1>Alok Kumar</h1>
-    <p>Brand & Product Designer</p>
-</header>
+<header class="hero">
+    <div class="hero-content">
+        <h1>ALOK KUMAR</h1>
+        <p class="designation">Visual Designer | E-Commerce & Fashion Designer</p>
 
-<section class="selector">
-    <div id="portfolioButtons"></div>
-</section>
+        <div class="contact">
+            <a href="https://www.linkedin.com/in/alok-kumar-592342205/" target="_blank">LinkedIn</a>
+            <a href="mailto:kr.alok0608@gmail.com">Email</a>
+            <a href="tel:+917892171857">+91 78921 71857</a>
+        </div>
 
-<section class="viewer-section hidden">
-    <div class="controls">
-        <button id="prev">←</button>
-        <span id="pageInfo"></span>
-        <button id="next">→</button>
-
-        <button id="zoomOut">-</button>
-        <button id="zoomIn">+</button>
-
-        <a id="downloadBtn" target="_blank">Download PDF</a>
+        <div id="portfolioButtons" class="portfolio-buttons"></div>
     </div>
 
-    <canvas id="pdfCanvas"></canvas>
-</section>
+    <button id="themeToggle" class="theme-toggle">🌗</button>
+</header>
+
+<main class="layout">
+
+    <aside class="thumbnails" id="thumbnails"></aside>
+
+    <section class="pdf-container" id="pdfContainer"></section>
+
+    <aside class="description" id="descriptionPanel">
+        <h2>Project Overview</h2>
+        <p id="projectDescription">
+            Select a portfolio to view details.
+        </p>
+    </aside>
+
+</main>
+
+<div class="floating-controls">
+    <button id="zoomOut">-</button>
+    <button id="zoomIn">+</button>
+    <a id="downloadBtn" target="_blank">Download</a>
+    <button id="goTop">Top ↑</button>
+</div>
 
 <script src="config.js"></script>
 <script src="script.js"></script>

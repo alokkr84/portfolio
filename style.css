@@ -1,88 +1,144 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+    --bg: #0e0e11;
+    --text: #f5f5f7;
+    --muted: #888;
+    --card: #1c1c22;
+}
+
+body.light {
+    --bg: #ffffff;
+    --text: #111;
+    --muted: #666;
+    --card: #f3f3f3;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #0e0e11;
-    color: #f2f2f2;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.4s, color 0.4s;
+}
+
+/* HERO */
+
+.hero {
+    padding: 100px 40px 60px;
     text-align: center;
+    animation: fadeIn 1.2s ease forwards;
 }
 
-header {
-    padding: 60px 20px 20px;
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
 }
 
-header h1 {
-    font-size: 2.8rem;
-    font-weight: 600;
-}
-
-header p {
-    color: #888;
-    margin-top: 10px;
-}
-
-.selector {
-    margin: 40px 0;
-}
-
-.selector button {
-    background: #1c1c22;
-    border: 1px solid #333;
-    color: white;
-    padding: 12px 24px;
-    margin: 10px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-.selector button.active {
-    background: white;
-    color: black;
-}
-
-.selector button:hover {
-    background: white;
-    color: black;
-}
-
-.viewer-section {
-    margin: 40px auto;
-}
-
-.controls {
+.designation {
+    color: var(--muted);
     margin-bottom: 20px;
 }
 
-.controls button,
-.controls a {
-    background: #1c1c22;
-    border: 1px solid #333;
-    color: white;
-    padding: 8px 16px;
-    margin: 5px;
-    border-radius: 20px;
+.contact a {
+    margin: 0 12px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.contact a:hover {
+    color: var(--text);
+}
+
+.portfolio-buttons button {
+    margin: 10px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: 1px solid var(--muted);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.portfolio-buttons button.active {
+    background: var(--text);
+    color: var(--bg);
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* LAYOUT */
+
+.layout {
+    display: grid;
+    grid-template-columns: 150px 1fr 350px;
+    gap: 30px;
+    padding: 40px;
+}
+
+.thumbnails {
+    position: sticky;
+    top: 40px;
+    height: 80vh;
+    overflow-y: auto;
+}
+
+.thumbnail {
+    margin-bottom: 15px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 0.3s;
+}
+
+.thumbnail:hover {
+    opacity: 1;
+}
+
+.pdf-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.pdf-page {
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    opacity: 0;
+    animation: fadeIn 0.8s forwards;
+}
+
+.description {
+    position: sticky;
+    top: 40px;
+    height: fit-content;
+}
+
+.floating-controls {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    gap: 10px;
+}
+
+.floating-controls button,
+.floating-controls a {
+    padding: 10px 16px;
+    border-radius: 30px;
+    border: none;
+    background: var(--card);
+    color: var(--text);
     cursor: pointer;
     text-decoration: none;
-    transition: 0.2s;
 }
 
-.controls button:hover,
-.controls a:hover {
-    background: white;
-    color: black;
-}
-
-canvas {
-    max-width: 90%;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-}
-
-.hidden {
-    display: none;
+@keyframes fadeIn {
+    to { opacity: 1; }
 }
