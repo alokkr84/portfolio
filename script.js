@@ -8,7 +8,8 @@ const downloadBtn = document.getElementById("downloadBtn");
 const descriptionPanel = document.getElementById("projectDescription");
 
 let pdfDoc = null;
-let currentFile = "";
+let currentPortfolio = null;
+let observers = [];
 
 function createPortfolioButtons() {
     portfolios.forEach((p, index) => {
@@ -16,8 +17,9 @@ function createPortfolioButtons() {
         btn.innerText = p.name;
 
         btn.onclick = () => {
-            loadPDF(p.file, p.description);
-            document.querySelectorAll(".portfolio-buttons button").forEach(b => b.classList.remove("active"));
+            loadPDF(p);
+            document.querySelectorAll(".portfolio-buttons button")
+                .forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
         };
 
@@ -25,14 +27,14 @@ function createPortfolioButtons() {
     });
 }
 
-function loadPDF(url, description) {
+function loadPDF(portfolio) {
+    currentPortfolio = portfolio;
     pdfContainer.innerHTML = "";
     thumbnailsContainer.innerHTML = "";
-    descriptionPanel.innerText = description;
-    downloadBtn.href = url;
-    currentFile = url;
+    descriptionPanel.innerText = portfolio.pages[0];
+    downloadBtn.href = portfolio.file;
 
-    pdfjsLib.getDocument(url).promise.then(pdf => {
+    pdfjsLib.getDocument(portfolio.file).promise.then(pdf => {
         pdfDoc = pdf;
         renderAllPages();
     });
@@ -44,7 +46,7 @@ function renderAllPages() {
 
             const viewport = page.getViewport({ scale: 1 });
             const scale = (window.innerWidth * 0.6) / viewport.width;
-            const scaledViewport = page.getViewport({ scale: scale });
+            const scaledViewport = page.getViewport({ scale });
 
             const canvas = document.createElement("canvas");
             const ctx = canvas.getContext("2d");
@@ -52,6 +54,7 @@ function renderAllPages() {
             canvas.height = scaledViewport.height;
             canvas.width = scaledViewport.width;
             canvas.classList.add("pdf-page");
+            canvas.dataset.page = i;
 
             page.render({ canvasContext: ctx, viewport: scaledViewport });
 
@@ -60,6 +63,8 @@ function renderAllPages() {
             createThumbnail(page, i);
         });
     }
+
+    setTimeout(initScrollTracking, 500);
 }
 
 function createThumbnail(page, pageNumber) {
@@ -70,15 +75,61 @@ function createThumbnail(page, pageNumber) {
     canvas.height = viewport.height;
     canvas.width = viewport.width;
     canvas.classList.add("thumbnail");
+    canvas.dataset.page = pageNumber;
 
-    page.render({ canvasContext: ctx, viewport: viewport });
+    page.render({ canvasContext: ctx, viewport });
 
     canvas.onclick = () => {
-        document.querySelectorAll(".pdf-page")[pageNumber - 1]
+        document.querySelector(`.pdf-page[data-page='${pageNumber}']`)
             .scrollIntoView({ behavior: "smooth" });
     };
 
     thumbnailsContainer.appendChild(canvas);
+}
+
+function initScrollTracking() {
+    observers.forEach(obs => obs.disconnect());
+    observers = [];
+
+    const options = { threshold: 0.6 };
+
+    document.querySelectorAll(".pdf-page").forEach(page => {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const pageNum = entry.target.dataset.page;
+                    highlightThumbnail(pageNum);
+                    updateDescription(pageNum);
+                }
+            });
+        }, options);
+
+        observer.observe(page);
+        observers.push(observer);
+    });
+}
+
+function highlightThumbnail(pageNum) {
+    document.querySelectorAll(".thumbnail")
+        .forEach(t => t.classList.remove("active"));
+
+    const activeThumb =
+        document.querySelector(`.thumbnail[data-page='${pageNum}']`);
+
+    if (activeThumb) activeThumb.classList.add("active");
+}
+
+function updateDescription(pageNum) {
+    const pages = currentPortfolio.pages;
+    const index = pageNum - 1;
+    const text = pages[index] || pages[pages.length - 1];
+
+    descriptionPanel.style.opacity = 0;
+
+    setTimeout(() => {
+        descriptionPanel.innerText = text;
+        descriptionPanel.style.opacity = 1;
+    }, 200);
 }
 
 document.getElementById("goTop").onclick = () => {
@@ -91,5 +142,11 @@ document.getElementById("themeToggle").onclick = () => {
 
 window.addEventListener("DOMContentLoaded", () => {
     createPortfolioButtons();
-    loadPDF(portfolios[0].file, portfolios[0].description);
+    loadPDF(portfolios[0]);
+});
+
+window.addEventListener("scroll", () => {
+    const offset = window.scrollY * 0.02;
+    document.querySelector(".hero").style.transform =
+        `translateY(${offset}px)`;
 });
