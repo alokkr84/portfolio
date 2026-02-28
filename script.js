@@ -13,10 +13,18 @@ const viewerSection = document.querySelector(".viewer-section");
 const pageInfo = document.getElementById("pageInfo");
 const downloadBtn = document.getElementById("downloadBtn");
 
-portfolios.forEach((p, index) => {
+portfolios.forEach((p) => {
     const btn = document.createElement("button");
     btn.innerText = p.name;
-    btn.onclick = () => loadPDF(p.file);
+
+    btn.onclick = () => {
+        loadPDF(p.file);
+
+        // active button styling
+        document.querySelectorAll(".selector button").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+    };
+
     portfolioButtons.appendChild(btn);
 });
 
