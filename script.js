@@ -45,14 +45,30 @@ function renderAllPages() {
         pdfDoc.getPage(i).then(page => {
 
             const viewport = page.getViewport({ scale: 1 });
-            const scale = (window.innerWidth * 0.6) / viewport.width;
-            const scaledViewport = page.getViewport({ scale });
+
+            const containerWidth =
+                window.innerWidth < 1024
+                    ? window.innerWidth * 0.95
+                    : window.innerWidth * 0.6;
+
+            const baseScale = containerWidth / viewport.width;
+
+            // 🔥 Retina / high DPI fix
+            const outputScale = window.devicePixelRatio || 1;
+
+            const scaledViewport = page.getViewport({
+                scale: baseScale * outputScale
+            });
 
             const canvas = document.createElement("canvas");
             const ctx = canvas.getContext("2d");
 
-            canvas.height = scaledViewport.height;
             canvas.width = scaledViewport.width;
+            canvas.height = scaledViewport.height;
+
+            // Set CSS size separately for crisp scaling
+            canvas.style.width = (scaledViewport.width / outputScale) + "px";
+            canvas.style.height = (scaledViewport.height / outputScale) + "px";
             canvas.classList.add("pdf-page");
             canvas.dataset.page = i;
 
@@ -68,12 +84,19 @@ function renderAllPages() {
 }
 
 function createThumbnail(page, pageNumber) {
-    const viewport = page.getViewport({ scale: 0.2 });
+    const thumbBaseViewport = page.getViewport({ scale: 1 });
+
+    const thumbContainerWidth = 120; // fixed sidebar width
+    const thumbScale = thumbContainerWidth / thumbBaseViewport.width;
+
+    const viewport = page.getViewport({ scale: thumbScale });
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
 
     canvas.height = viewport.height;
     canvas.width = viewport.width;
+    canvas.style.width = "100%";
+    canvas.style.height = "auto";
     canvas.classList.add("thumbnail");
     canvas.dataset.page = pageNumber;
 
@@ -142,7 +165,22 @@ document.getElementById("themeToggle").onclick = () => {
 
 window.addEventListener("DOMContentLoaded", () => {
     createPortfolioButtons();
-    loadPDF(portfolios[0]);
+    const defaultPortfolio =
+        portfolios.find(p => p.default) || portfolios[0];
+
+    loadPDF(defaultPortfolio);
+
+    // Activate correct button
+    setTimeout(() => {
+        const buttons =
+            document.querySelectorAll(".portfolio-buttons button");
+
+        portfolios.forEach((p, index) => {
+            if (p === defaultPortfolio) {
+                buttons[index].classList.add("active");
+            }
+        });
+    }, 100);
 });
 
 window.addEventListener("scroll", () => {
