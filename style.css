@@ -205,26 +205,29 @@ body:hover ::-webkit-scrollbar-thumb {
 }
 
 @media (max-width: 1024px) {
+
     .layout {
-        grid-template-columns: 1fr;
+        display: block;
+        padding: 10px 20px 40px;
     }
 
-    .thumbnails {
+    .thumbnails,
+    .description {
         display: none;
     }
 
-    .description {
-        position: relative;
-        top: 0;
-        margin-top: 40px;
-    }
-
     .pdf-container {
-        align-items: center;
+        width: 100%;
     }
 
     .pdf-page {
-        width: 95% !important;
+        width: 100% !important;
         height: auto !important;
+        border-radius: 10px;
+    }
+
+    .floating-controls {
+        right: 20px;
+        bottom: 20px;
     }
 }
