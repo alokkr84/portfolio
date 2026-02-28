@@ -1,0 +1,83 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0e0e11;
+    color: #f2f2f2;
+    text-align: center;
+}
+
+header {
+    padding: 60px 20px 20px;
+}
+
+header h1 {
+    font-size: 2.8rem;
+    font-weight: 600;
+}
+
+header p {
+    color: #888;
+    margin-top: 10px;
+}
+
+.selector {
+    margin: 40px 0;
+}
+
+.selector button {
+    background: #1c1c22;
+    border: 1px solid #333;
+    color: white;
+    padding: 12px 24px;
+    margin: 10px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.selector button:hover {
+    background: white;
+    color: black;
+}
+
+.viewer-section {
+    margin-top: 30px;
+}
+
+.controls {
+    margin-bottom: 20px;
+}
+
+.controls button,
+.controls a {
+    background: #1c1c22;
+    border: 1px solid #333;
+    color: white;
+    padding: 8px 16px;
+    margin: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.controls button:hover,
+.controls a:hover {
+    background: white;
+    color: black;
+}
+
+canvas {
+    max-width: 90%;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.hidden {
+    display: none;
+}

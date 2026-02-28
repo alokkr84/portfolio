@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Name — Portfolio</title>
+
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+
+<body>
+
+<header>
+    <h1>Your Name</h1>
+    <p>Brand & Product Designer</p>
+</header>
+
+<section class="selector">
+    <div id="portfolioButtons"></div>
+</section>
+
+<section class="viewer-section hidden">
+    <div class="controls">
+        <button id="prev">←</button>
+        <span id="pageInfo"></span>
+        <button id="next">→</button>
+
+        <button id="zoomOut">-</button>
+        <button id="zoomIn">+</button>
+
+        <a id="downloadBtn" target="_blank">Download PDF</a>
+    </div>
+
+    <canvas id="pdfCanvas"></canvas>
+</section>
+
+<script src="config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
